@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://db.gdgoc-team3.site:3306/gdgoc
+    username: gdgoc
+    password: ${GDGOC_DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+server:
+  port: 443
+  ssl:
+    enabled: true
+    key-store: /etc/letsencrypt/live/api.gdgoc-team3.site/keystore.p12
+    key-store-password: gdgoc1234!!
+    key-store-type: PKCS12

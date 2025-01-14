@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS}  %5p  [%t]  %c{1}:%L  - %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 로거 레벨 설정: 프로필에 따라 다르게 설정 -->
+    <springProfile name="local">
+        <!-- local 프로필에서 DEBUG 레벨 설정 -->
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="com.team3.gdgoc" level="DEBUG"/>
+    </springProfile>
+
+    <springProfile name="prod">
+        <!-- prod 프로필에서 INFO 레벨 설정 -->
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="com.team3.gdgoc" level="INFO"/>
+    </springProfile>
+
+
+    <!-- 루트 로거 설정: 기본 로그 레벨과 사용할 appender 지정 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
