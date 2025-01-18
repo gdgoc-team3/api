@@ -24,6 +24,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.30'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
     implementation 'software.amazon.awssdk:s3:2.20.10'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -31,4 +32,10 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2024.0.0"
+    }
 }
