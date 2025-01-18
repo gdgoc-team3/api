@@ -4,12 +4,16 @@ import com.team3.gdgoc.common.ApiResponse;
 import java.time.LocalDate;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
-//    private final UserService userService;
+
+    private final UserService userService;
+    private final UserMyService userMyService;
 
     @GetMapping("/my/{userIdentity}")
     public ApiResponse<MyInfoResponse> getMyInfo(@PathVariable String userIdentity,
