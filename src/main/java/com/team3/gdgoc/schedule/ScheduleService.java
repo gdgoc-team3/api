@@ -84,4 +84,8 @@ public class ScheduleService {
     public List<ScheduleEntity> getScheduleList() {
         return scheduleRepository.findAll();
     }
+
+    public ScheduleEntity getScheduleByUserId(Long userId) {
+        return scheduleRepository.findByUserId(userId);
+    }
 }

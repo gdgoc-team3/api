@@ -3,7 +3,6 @@ package com.team3.gdgoc.user;
 import com.team3.gdgoc.common.ApiResponse;
 import com.team3.gdgoc.interest.InterestEntity;
 import com.team3.gdgoc.interest.InterestService;
-import java.time.LocalDate;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;

@@ -22,4 +22,6 @@ public interface AiClient {
 
     @GetMapping("/feedback/readInfo")
     FeedbackResponse getSchedules(@RequestParam List<String> info);
+
+
 }
