@@ -3,9 +3,7 @@ package com.team3.gdgoc.schedule;
 import com.team3.gdgoc.common.ApiResponse;
 import com.team3.gdgoc.task.TaskDateResponse;
 import com.team3.gdgoc.task.TaskResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -71,6 +69,22 @@ public class ScheduleController {
                 .mustDoTasks("이력서 작성, 자소서 작성, 면접 준비")
                 .requirements("취업 준비")
                 .tasks(List.of(task1,task2))
+                .build();
+
+        return ApiResponse.success(response);
+    }
+
+    @PostMapping("/")
+    public ApiResponse<ScheduleResponse> addSchedule(@RequestBody AddScheduleRequest request) {
+
+        ScheduleResponse response = ScheduleResponse.builder()
+                .scheduleId(1)
+                .title(request.getTitle())
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
+                .mustDoTasks(request.getMustDoTasks())
+                .requirements(request.getRequirements())
+                .tasks(List.of())
                 .build();
 
         return ApiResponse.success(response);

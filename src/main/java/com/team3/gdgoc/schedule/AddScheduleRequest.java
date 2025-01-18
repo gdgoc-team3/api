@@ -1,8 +1,9 @@
 package com.team3.gdgoc.schedule;
 
 import lombok.Builder;
+import lombok.Getter;
 
-@Builder
+@Getter
 public class AddScheduleRequest {
 
     private String title;
@@ -14,4 +15,13 @@ public class AddScheduleRequest {
     private String mustDoTasks;
 
     private String requirements;
+
+    @Builder
+    public AddScheduleRequest(String title, String startDate, String endDate, String mustDoTasks, String requirements) {
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.mustDoTasks = mustDoTasks;
+        this.requirements = requirements;
+    }
 }
