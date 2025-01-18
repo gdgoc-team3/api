@@ -5,22 +5,28 @@ import java.time.LocalDate;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
     private final UserMyService userMyService;
 
+    public UserController(UserService userService, UserMyService userMyService) {
+        this.userService = userService;
+        this.userMyService = userMyService;
+    }
     @GetMapping("/my/{userIdentity}")
     public ApiResponse<MyInfoResponse> getMyInfo(@PathVariable String userIdentity,
                                                    @RequestParam int year, @RequestParam int month) {
+        // userService를 이용해 nickname 가져오기
+        String nickname = userMyService.getNickname(userIdentity); // nickname 가져오
 
         // 임시데이터
-        String nickname = "김시현";
         int ranking = 3;
         int processRatio = 85;
         int totalUsers = 100;
