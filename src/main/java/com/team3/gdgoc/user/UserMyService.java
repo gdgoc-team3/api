@@ -14,4 +14,10 @@ public class UserMyService {
                 .map(UserEntity::getNickname) // nickname만 가져옴
                 .orElseThrow(() -> new IllegalArgumentException("User not found with identity: " + identity));
     }
+    // identity로 userId 가져오기
+    public Long getUserId(String identity) {
+        return userMyRepository.findByIdentity(identity)
+                .map(UserEntity::getId) // userId만 가져옴
+                .orElseThrow(() -> new IllegalArgumentException("User not found with identity: " + identity));
+    }
 }
