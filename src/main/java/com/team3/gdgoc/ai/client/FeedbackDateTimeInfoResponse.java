@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @Getter
 public class FeedbackDateTimeInfoResponse {
@@ -25,5 +27,9 @@ public class FeedbackDateTimeInfoResponse {
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+    }
+
+    public LocalDateTime toLocalDateTime() {
+        return LocalDateTime.of(year, month, day, hour, minute);
     }
 }

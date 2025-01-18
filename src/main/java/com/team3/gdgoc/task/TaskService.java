@@ -11,7 +11,11 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public List<TaskEntity> createTask(List<TaskEntity> tasks) {
+    public List<TaskEntity> addTasks(List<TaskEntity> tasks) {
         return taskRepository.saveAll(tasks);
+    }
+
+    public List<TaskEntity> getTasksByScheduleId(Long scheduleId) {
+        return taskRepository.findAllByScheduleId(scheduleId);
     }
 }

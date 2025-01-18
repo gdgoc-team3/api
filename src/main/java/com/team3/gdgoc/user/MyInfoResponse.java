@@ -9,7 +9,7 @@ import lombok.Getter;
 public class MyInfoResponse {
     private String nickname;            // 유저 닉네임
     private int ranking;                // 유저의 등수
-    private int processRatio;           // 유저의 전체 진행도 (0~100)
+    private double processRatio;           // 유저의 전체 진행도 (0~100)
     private int totalUsers;             // 전체 유저 수
     private int year;                   // 요청된 년도
     private int month;                  // 요청된 월
@@ -17,7 +17,7 @@ public class MyInfoResponse {
 
 
     @Builder
-    public MyInfoResponse(String nickname, int ranking, int processRatio, int totalUsers,
+    public MyInfoResponse(String nickname, int ranking, double processRatio, int totalUsers,
                           int year, int month,List<MonthlyProgressResponse> monthlyProgressResponses) {
         this.nickname = nickname;
         this.ranking = ranking;

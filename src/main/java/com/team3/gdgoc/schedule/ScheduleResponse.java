@@ -1,6 +1,7 @@
 package com.team3.gdgoc.schedule;
 
 import com.team3.gdgoc.task.TaskResponse;
+import com.team3.gdgoc.user.MonthlyProgressResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

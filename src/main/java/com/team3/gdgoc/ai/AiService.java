@@ -15,19 +15,28 @@ public class AiService {
 
     public FeedbackResponse getSchedules(GetAiScheduleRequest request) {
 
+        String scheduleDate = request.getScheduleStartDate() + "-" + request.getScheduleEndDate();
+
+        String birthDateFormatted = request.getBirthDate().replace("-", "");
+
         List<String> query = List.of(
-                request.getBirthDate(),
+                birthDateFormatted,
                 request.getMajor(),
                 request.getDesiredJob(),
-                request.getTargetEmploymentPeriod(),
+                formatEmploymentPeriod(Integer.parseInt(request.getTargetEmploymentPeriod())),
                 request.getScheduleTitle(),
-                request.getScheduleDate(),
-                request.getScheduleTime(),
+                scheduleDate,
                 request.getMustDoTasks(),
                 request.getRequirements()
         );
 
         return aiClient.getSchedules(query);
+    }
+
+    private String formatEmploymentPeriod(int months) {
+        int years = months / 12;
+        int remainingMonths = months % 12;
+        return String.format("%03d", remainingMonths, years * 100 + remainingMonths);
     }
 
 }

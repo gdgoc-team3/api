@@ -25,16 +25,16 @@ public class TaskEntity {
     private String title;
 
     @Column(name = "start_time", nullable = false)
-    private LocalDate startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time", nullable = false)
-    private LocalDate endTime;
+    private LocalDateTime endTime;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
     @Builder
-    private TaskEntity(Long id, Long scheduleId, String title, LocalDate startTime, LocalDate endTime, LocalDateTime createdAt) {
+    private TaskEntity(Long id, Long scheduleId, String title, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime createdAt) {
         this.id = id;
         this.scheduleId = scheduleId;
         this.title = title;
