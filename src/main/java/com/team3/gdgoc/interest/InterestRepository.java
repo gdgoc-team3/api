@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InterestRepository extends JpaRepository<InterestEntity, Long> {
+    InterestEntity findByUserId(Long userId);
 }

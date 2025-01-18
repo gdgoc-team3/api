@@ -29,5 +29,9 @@ public class InterestService {
 
         return interestRepository.save(interest);
     }
+    public InterestEntity getInterest(Long userId) {
+        InterestEntity interestEntity= interestRepository.findByUserId(userId);
+        return interestEntity;
+    }
 
 }

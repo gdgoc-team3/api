@@ -1,6 +1,8 @@
 package com.team3.gdgoc.user;
 
 import com.team3.gdgoc.common.ApiResponse;
+import com.team3.gdgoc.interest.InterestEntity;
+import com.team3.gdgoc.interest.InterestService;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final InterestService interestService;
     private final UserMyService userMyService;
 
     @GetMapping("/my/{userIdentity}")
@@ -51,14 +54,21 @@ public class UserController {
 
     @GetMapping("/{userIdentity}")
     public ApiResponse<UserInfoResponse> getUserInfo(@PathVariable String userIdentity) {
+        UserInfoResponse userInfo= userService.getUserInfoByIdentity(userIdentity);
+        InterestEntity interestEntity = interestService.getInterest(userInfo.getUserId());
+        if(interestEntity == null) {
+            throw new IllegalArgumentException("관심사가 존재하지 않습니다.");
+        }
         UserInfoResponse response = UserInfoResponse.builder()
-                .birthDate(LocalDate.of(1998, 1, 1))
-                .nickname("개발자")
-                .identity(userIdentity)
-                .major("컴퓨터과학과")
-                .desiredJob("백엔드")
-                .targetEmploymentPeriod(3)
+                .userId(userInfo.getUserId())
+                .identity(userInfo.getIdentity())
+                .birthDate(userInfo.getBirthDate())
+                .nickname(userInfo.getNickname())
+                .major(interestEntity.getMajor())
+                .targetEmploymentPeriod(interestEntity.getTargetEmploymentPeriod())
+                .desiredJob(interestEntity.getDesiredJob())
                 .build();
+
 
         return ApiResponse.success(response);
     }
