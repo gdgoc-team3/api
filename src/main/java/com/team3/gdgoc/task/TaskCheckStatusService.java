@@ -19,11 +19,6 @@ public class TaskCheckStatusService {
     private final TaskRepository taskRepository;
     private final ScheduleRepository scheduleRepository;
 
-    // 전체 task 개수 가져오기
-    public long getTotalTaskCount(List<Long> taskIds) {
-        List<TaskCheckStatusEntity> taskCheckStatusList = taskCheckStatusRepository.findAllByTaskIdIn(taskIds);
-        return taskCheckStatusList.size(); // 리스트의 크기 = 전체 task 개수
-    }
     // 완료된 task 개수 가져오기
     public long getCompletedTaskCount(List<Long> taskIds) {
         List<TaskCheckStatusEntity> taskCheckStatusList = taskCheckStatusRepository.findAllByTaskIdIn(taskIds);
@@ -35,8 +30,8 @@ public class TaskCheckStatusService {
 
     // 특정 task에 대해 진행률을 사용자에게 보여줄 수 있게 처리
     @Transactional
-    public double getTaskCompletionRateForUser(Long userId, Long scheduleId) {
-        ScheduleEntity schedule = scheduleRepository.findById(scheduleId)
+    public double getTaskCompletionRateForUser(Long userId) {
+        ScheduleEntity schedule = scheduleRepository.findFirstByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Schedule not found for userId: " + userId));
 
             List<TaskEntity> tasks = taskRepository.findByScheduleId(schedule.getId());
@@ -61,5 +56,6 @@ public class TaskCheckStatusService {
         double completionRate = (double) completedTasks / totalTasks * 100;
         return (int) Math.floor(completionRate); // 소숫점을 버리고 정수로 반환
     }
+
 
 }
