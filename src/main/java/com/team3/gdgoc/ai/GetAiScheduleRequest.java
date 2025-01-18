@@ -18,23 +18,23 @@ public class GetAiScheduleRequest {
 
     private String scheduleTitle;
 
-    private String scheduleDate;
+    private String scheduleStartDate;
 
-    private String scheduleTime;
+    private String scheduleEndDate;
 
     private String mustDoTasks;
 
     private String requirements;
 
     @Builder
-    private GetAiScheduleRequest(String birthDate, String major, String desiredJob, String targetEmploymentPeriod, String scheduleTitle, String scheduleDate, String scheduleTime, String mustDoTasks, String requirements) {
+    public GetAiScheduleRequest(String birthDate, String major, String desiredJob, String targetEmploymentPeriod, String scheduleTitle, String scheduleStartDate, String scheduleEndDate, String mustDoTasks, String requirements) {
         this.birthDate = birthDate;
         this.major = major;
         this.desiredJob = desiredJob;
         this.targetEmploymentPeriod = targetEmploymentPeriod;
         this.scheduleTitle = scheduleTitle;
-        this.scheduleDate = scheduleDate;
-        this.scheduleTime = scheduleTime;
+        this.scheduleStartDate = scheduleStartDate;
+        this.scheduleEndDate = scheduleEndDate;
         this.mustDoTasks = mustDoTasks;
         this.requirements = requirements;
     }

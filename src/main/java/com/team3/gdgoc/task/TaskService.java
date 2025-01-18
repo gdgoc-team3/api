@@ -11,7 +11,7 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public List<TaskEntity> createTask(List<TaskEntity> tasks) {
+    public List<TaskEntity> addTasks(List<TaskEntity> tasks) {
         return taskRepository.saveAll(tasks);
     }
 }

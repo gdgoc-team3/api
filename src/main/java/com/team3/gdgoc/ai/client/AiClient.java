@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "aiClient", url = "http://ai.gdgoc-team3.site")
+@FeignClient(name = "aiClient", url = "http://ai.gdgoc-team3.site:8000")
 public interface AiClient {
 
 //    @GetMapping("/feedback/readInfo")
