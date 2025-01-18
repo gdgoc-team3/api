@@ -11,6 +11,7 @@ import com.team3.gdgoc.task.TaskDateResponse;
 import com.team3.gdgoc.task.TaskEntity;
 import com.team3.gdgoc.task.TaskResponse;
 import com.team3.gdgoc.task.TaskService;
+import com.team3.gdgoc.user.MonthlyProgressResponse;
 import com.team3.gdgoc.user.UserInfoResponse;
 import com.team3.gdgoc.user.UserService;
 import jakarta.transaction.Transactional;
@@ -19,8 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -213,5 +215,55 @@ public class ScheduleService {
                             .build();
                 })
                 .toList();
+    }
+
+    public List<MonthlyProgressResponse> getMonthlyProgress(String userIdentity, String year, String month) {
+        UserInfoResponse user = userService.getUserInfoByIdentity(userIdentity);
+        List<ScheduleEntity> scheduleList = scheduleRepository.findAllByUserId(user.getUserId());
+
+        int targetYear = Integer.parseInt(year);
+        int targetMonth = Integer.parseInt(month);
+
+        // 해당 월의 전체 일 수 가져오기
+        YearMonth yearMonth = YearMonth.of(targetYear, targetMonth);
+        int daysInMonth = yearMonth.lengthOfMonth();
+
+        // 기본적으로 모든 날짜의 progress를 0으로 초기화
+        Map<Integer, Integer> progressMap = new HashMap<>();
+        for (int day = 1; day <= daysInMonth; day++) {
+            progressMap.put(day, 0);
+        }
+
+        Random random = new Random();
+
+        // 일정이 있는 날짜에 progress 값을 랜덤으로 설정
+        for (ScheduleEntity schedule : scheduleList) {
+            LocalDate startDate = schedule.getStartDate();
+            LocalDate endDate = schedule.getEndDate();
+
+            // 일정이 해당 월에 속하는 경우만 처리
+            if ((startDate.getYear() == targetYear && startDate.getMonthValue() == targetMonth) ||
+                    (endDate.getYear() == targetYear && endDate.getMonthValue() == targetMonth) ||
+                    (startDate.isBefore(yearMonth.atEndOfMonth()) && endDate.isAfter(yearMonth.atDay(1)))) {
+
+                LocalDate current = startDate;
+                while (!current.isAfter(endDate) && current.getMonthValue() == targetMonth) {
+                    int day = current.getDayOfMonth();
+                    progressMap.put(day, random.nextInt(101)); // 0~100 랜덤 값
+                    current = current.plusDays(1);
+                }
+            }
+        }
+
+        // 결과 리스트 생성
+        List<MonthlyProgressResponse> responseList = new ArrayList<>();
+        for (int day = 1; day <= daysInMonth; day++) {
+            responseList.add(MonthlyProgressResponse.builder()
+                    .day(day)
+                    .progress(progressMap.get(day))
+                    .build());
+        }
+
+        return responseList;
     }
 }
