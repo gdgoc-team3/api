@@ -4,6 +4,12 @@ spring:
     username: gdgoc
     password: ${GDGOC_DB_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      maximum-pool-size: 50      # 최대 커넥션 개수 (MariaDB max_connections보다 작게 설정)
+      minimum-idle: 10           # 최소한으로 유지할 커넥션 개수
+      idle-timeout: 30000        # 미사용 커넥션 유지 시간 (30초 후 해제)
+      max-lifetime: 1800000      # 커넥션 최대 유지 시간 (30분 후 교체)
+      connection-timeout: 30000  # 연결 타임아웃 (30초)
   jpa:
     hibernate:
       ddl-auto: none
