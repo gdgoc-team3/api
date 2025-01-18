@@ -1,6 +1,7 @@
 package com.team3.gdgoc.schedule;
 
 import com.team3.gdgoc.ai.AiService;
+import com.team3.gdgoc.interest.InterestService;
 import com.team3.gdgoc.task.TaskService;
 import com.team3.gdgoc.user.UserEntity;
 import com.team3.gdgoc.user.UserInfoResponse;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,10 +26,14 @@ public class ScheduleService {
 
     private final UserService userService;
 
+    private final InterestService interestService;
+
     @Transactional
     public ScheduleResponse addSchedule(AddScheduleRequest request) {
 
-        int interestId = 1;
+        UserInfoResponse user = userService.getUserInfoByIdentity(request.getUserIdentity());
+
+        Long interestId =interestService.getInterestByUserId(user.getUserId()).getId();
 
         LocalDate startDate = LocalDate.parse(request.getStartDate());
         LocalDate endDate = LocalDate.parse(request.getEndDate());
@@ -36,12 +42,13 @@ public class ScheduleService {
 
         ScheduleEntity scheduleEntity = ScheduleEntity.builder()
                 .userId(userInfo.getUserId())
-                .interestId((long) interestId)
+                .interestId(interestId)
                 .title(request.getTitle())
                 .startDate(startDate)
                 .endDate(endDate)
                 .mustDoTasks(request.getMustDoTasks())
                 .scheduleRequirements(request.getRequirements())
+                .createdAt(LocalDateTime.now())
                 .build();
 
         ScheduleEntity saved = scheduleRepository.save(scheduleEntity);
