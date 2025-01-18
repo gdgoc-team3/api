@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -47,6 +48,7 @@ public class ScheduleService {
                 .endDate(endDate)
                 .mustDoTasks(request.getMustDoTasks())
                 .scheduleRequirements(request.getRequirements())
+                .createdAt(LocalDateTime.now())
                 .build();
 
         ScheduleEntity saved = scheduleRepository.save(scheduleEntity);
