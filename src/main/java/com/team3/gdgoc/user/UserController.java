@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ApiResponse<UserInfoResponse> addUser(@RequestBody AddUserRequest request) {
+    public ApiResponse<UserInfoResponse> createUser(@RequestBody AddUserRequest request) {
         UserInfoResponse response = UserInfoResponse.builder()
                 .birthDate(request.getBirthDate())
                 .nickname(request.getNickname())
@@ -72,6 +72,7 @@ public class UserController {
                 .desiredJob(request.getDesiredJob())
                 .targetEmploymentPeriod(request.getTargetEmploymentPeriod())
                 .build();
+        userService.createUser(response);
 
         return ApiResponse.success(response);
     }
