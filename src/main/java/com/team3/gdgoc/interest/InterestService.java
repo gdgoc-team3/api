@@ -1,10 +1,12 @@
-package com.team3.gdgoc.user;
+package com.team3.gdgoc.interest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
+public class InterestService {
+
+    private final InterestRepository interestRepository;
+
 }
