@@ -3,13 +3,17 @@ package com.team3.gdgoc.schedule;
 import com.team3.gdgoc.common.ApiResponse;
 import com.team3.gdgoc.task.TaskDateResponse;
 import com.team3.gdgoc.task.TaskResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/schedule")
 public class ScheduleController {
+
+    private final ScheduleService scheduleService;
 
     @GetMapping("/")
     public ApiResponse<ScheduleResponse> getSchedule(int scheduleId) {
@@ -76,17 +80,7 @@ public class ScheduleController {
 
     @PostMapping("/")
     public ApiResponse<ScheduleResponse> addSchedule(@RequestBody AddScheduleRequest request) {
-
-        ScheduleResponse response = ScheduleResponse.builder()
-                .scheduleId(1)
-                .title(request.getTitle())
-                .startDate(request.getStartDate())
-                .endDate(request.getEndDate())
-                .mustDoTasks(request.getMustDoTasks())
-                .requirements(request.getRequirements())
-                .tasks(List.of())
-                .build();
-
+        ScheduleResponse response = scheduleService.addSchedule(request);
         return ApiResponse.success(response);
     }
 
