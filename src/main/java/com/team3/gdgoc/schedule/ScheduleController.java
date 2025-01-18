@@ -84,4 +84,9 @@ public class ScheduleController {
         return ApiResponse.success(response);
     }
 
+    @GetMapping("/hasSchedule/{userIdentity}")
+    public ApiResponse<Boolean> hasSchedule(@PathVariable String userIdentity) {
+        return ApiResponse.success(scheduleService.hasSchedule(userIdentity));
+    }
+
 }
