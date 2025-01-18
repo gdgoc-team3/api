@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user2")
 public class User2Controller {
 
     @GetMapping("/{userIdentity}")
@@ -25,7 +25,6 @@ public class User2Controller {
                 MonthlyProgressResponse.builder().day(3).progress(85).build(),
                 MonthlyProgressResponse.builder().day(4).progress(90).build(),
                 MonthlyProgressResponse.builder().day(5).progress(50).build()
-
         );
 
         // MyInfoResponse 객체 생성
