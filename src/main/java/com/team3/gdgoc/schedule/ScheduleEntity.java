@@ -18,8 +18,8 @@ public class ScheduleEntity {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "user_identity", nullable = false, length = 255)
-    private String userIdentity;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "interest_id", nullable = false)
     private Long interestId;
@@ -43,9 +43,9 @@ public class ScheduleEntity {
     private LocalDateTime createdAt;
 
     @Builder
-    public ScheduleEntity(Long id, String userIdentity, Long interestId, String title, LocalDate startDate, LocalDate endDate, String mustDoTasks, String scheduleRequirements, LocalDateTime createdAt) {
+    private ScheduleEntity(Long id, Long userId, Long interestId, String title, LocalDate startDate, LocalDate endDate, String mustDoTasks, String scheduleRequirements, LocalDateTime createdAt) {
         this.id = id;
-        this.userIdentity = userIdentity;
+        this.userId = userId;
         this.interestId = interestId;
         this.title = title;
         this.startDate = startDate;

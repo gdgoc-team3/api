@@ -2,6 +2,9 @@ package com.team3.gdgoc.schedule;
 
 import com.team3.gdgoc.ai.AiService;
 import com.team3.gdgoc.task.TaskService;
+import com.team3.gdgoc.user.UserEntity;
+import com.team3.gdgoc.user.UserInfoResponse;
+import com.team3.gdgoc.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ public class ScheduleService {
 
     private final TaskService taskService;
 
+    private final UserService userService;
+
     @Transactional
     public ScheduleResponse addSchedule(AddScheduleRequest request) {
 
@@ -27,8 +32,10 @@ public class ScheduleService {
         LocalDate startDate = LocalDate.parse(request.getStartDate());
         LocalDate endDate = LocalDate.parse(request.getEndDate());
 
+        UserInfoResponse userInfo = userService.getUserInfoByIdentity(request.getUserIdentity());
+
         ScheduleEntity scheduleEntity = ScheduleEntity.builder()
-                .userIdentity(request.getUserIdentity())
+                .userId(userInfo.getUserId())
                 .interestId((long) interestId)
                 .title(request.getTitle())
                 .startDate(startDate)
