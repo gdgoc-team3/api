@@ -5,21 +5,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
     private final UserMyService userMyService;
 
-    public UserController(UserService userService, UserMyService userMyService) {
-        this.userService = userService;
-        this.userMyService = userMyService;
-    }
     @GetMapping("/my/{userIdentity}")
     public ApiResponse<MyInfoResponse> getMyInfo(@PathVariable String userIdentity,
                                                    @RequestParam int year, @RequestParam int month) {
@@ -59,7 +54,7 @@ public class UserController {
         UserInfoResponse response = UserInfoResponse.builder()
                 .birthDate(LocalDate.of(1998, 1, 1))
                 .nickname("개발자")
-                .userIdentity(userIdentity)
+                .identity(userIdentity)
                 .major("컴퓨터과학과")
                 .desiredJob("백엔드")
                 .targetEmploymentPeriod(3)
@@ -70,16 +65,7 @@ public class UserController {
 
     @PostMapping("")
     public ApiResponse<UserInfoResponse> createUser(@RequestBody AddUserRequest request) {
-        UserInfoResponse response = UserInfoResponse.builder()
-                .birthDate(request.getBirthDate())
-                .nickname(request.getNickname())
-                .userIdentity(request.getUserIdentity())
-                .major(request.getMajor())
-                .desiredJob(request.getDesiredJob())
-                .targetEmploymentPeriod(request.getTargetEmploymentPeriod())
-                .build();
-        userService.createUser(response);
-
+        UserInfoResponse response = userService.createUser(request);
         return ApiResponse.success(response);
     }
 

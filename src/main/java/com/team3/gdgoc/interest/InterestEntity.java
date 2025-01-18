@@ -1,6 +1,5 @@
 package com.team3.gdgoc.interest;
 
-import com.team3.gdgoc.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +17,8 @@ public class InterestEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_identity", length = 16, nullable = false)
-    private String userIdentity;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "major", length = 100, nullable = false)
     private String major;
@@ -33,18 +32,13 @@ public class InterestEntity {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "identity", nullable = false)
-    private UserEntity user;
-
     @Builder
-    public InterestEntity(Long id, String userIdentity, String major, String desiredJob, int targetEmploymentPeriod, LocalDateTime createdAt, UserEntity user){
+    private InterestEntity(Long id, Long userId, String major, String desiredJob, int targetEmploymentPeriod, LocalDateTime createdAt) {
         this.id = id;
-        this.userIdentity = userIdentity;
+        this.userId = userId;
         this.major = major;
         this.desiredJob = desiredJob;
         this.targetEmploymentPeriod = targetEmploymentPeriod;
         this.createdAt = createdAt;
-        this.user=user;
     }
 }
