@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -153,7 +154,64 @@ public class ScheduleService {
         return false;
     }
 
-    public List<ScheduleEntity> getScheduleList() {
-        return scheduleRepository.findAll();
+    public List<ScheduleResponse> getScheduleList(String userIdentity, String year, String month) {
+
+        UserInfoResponse user = userService.getUserInfoByIdentity(userIdentity);
+
+        List<ScheduleEntity> scheduleList = scheduleRepository.findAllByUserId(user.getUserId());
+
+        // 입력받은 year, month를 기반으로 해당 월의 시작일과 마지막일을 계산
+        int yearInt = Integer.parseInt(year);
+        int monthInt = Integer.parseInt(month);
+
+        LocalDate startOfMonth = LocalDate.of(yearInt, monthInt, 1);
+        LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
+
+        // 해당 기간에 걸쳐 있는 일정 필터링
+        List<ScheduleEntity> filteredSchedules = scheduleList.stream()
+                .filter(schedule ->
+                        !(schedule.getEndDate().isBefore(startOfMonth) || schedule.getStartDate().isAfter(endOfMonth))
+                )
+                .toList();
+
+        return filteredSchedules.stream()
+                .map(schedule -> {
+
+                    List<TaskEntity> tasks = taskService.getTasksByScheduleId(schedule.getId());
+
+                    List<TaskResponse> taskResponses = tasks.stream()
+                            .map(task -> TaskResponse.builder()
+                                    .taskId(Math.toIntExact(task.getId()))
+                                    .title(task.getTitle())
+                                    .isCompleted(false)
+                                    .startDate(TaskDateResponse.builder()
+                                            .year(task.getStartTime().getYear())
+                                            .month(task.getStartTime().getMonthValue())
+                                            .day(task.getStartTime().getDayOfMonth())
+                                            .hour(task.getStartTime().getHour())
+                                            .minute(task.getStartTime().getMinute())
+                                            .build()
+                                    )
+                                    .endDate(TaskDateResponse.builder()
+                                            .year(task.getEndTime().getYear())
+                                            .month(task.getEndTime().getMonthValue())
+                                            .day(task.getEndTime().getDayOfMonth())
+                                            .hour(task.getEndTime().getHour())
+                                            .minute(task.getEndTime().getMinute())
+                                            .build())
+                                    .build())
+                            .toList();
+
+                    return ScheduleResponse.builder()
+                            .scheduleId(Math.toIntExact(schedule.getId()))
+                            .title(schedule.getTitle())
+                            .startDate(schedule.getStartDate().toString())
+                            .endDate(schedule.getEndDate().toString())
+                            .mustDoTasks(schedule.getMustDoTasks())
+                            .requirements(schedule.getScheduleRequirements())
+                            .tasks(taskResponses)
+                            .build();
+                })
+                .toList();
     }
 }

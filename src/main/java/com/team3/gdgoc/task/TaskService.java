@@ -14,4 +14,8 @@ public class TaskService {
     public List<TaskEntity> addTasks(List<TaskEntity> tasks) {
         return taskRepository.saveAll(tasks);
     }
+
+    public List<TaskEntity> getTasksByScheduleId(Long scheduleId) {
+        return taskRepository.findAllByScheduleId(scheduleId);
+    }
 }
