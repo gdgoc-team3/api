@@ -64,16 +64,16 @@ public class ScheduleService {
                 .build();
     }
 
-    Boolean hasSchedule(String userIdentity) {
+    Boolean hasSchedule(String userIdentity, String dateString) {
+
         UserInfoResponse user = userService.getUserInfoByIdentity(userIdentity);
 
         List<ScheduleEntity> scheduleList = scheduleRepository.findAllByUserId(user.getUserId());
 
-        // 현재날짜가 startDate와 endDate가 사이에 있는지 확인
-        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.parse(dateString);
 
         for (ScheduleEntity schedule : scheduleList) {
-            if (now.isAfter(schedule.getStartDate()) && now.isBefore(schedule.getEndDate())) {
+            if (!now.isBefore(schedule.getStartDate()) && !now.isAfter(schedule.getEndDate())) {
                 return true;
             }
         }
