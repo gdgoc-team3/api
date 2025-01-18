@@ -4,8 +4,22 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "aiClient", url = "https://api.example.com")
+import java.util.List;
+
+@FeignClient(name = "aiClient", url = "http://ai.gdgoc-team3.site")
 public interface AiClient {
-    @GetMapping("/data")
-    String getData(@RequestParam String query);
+
+//    @GetMapping("/feedback/readInfo")
+//    String getSchedules(@RequestParam String birthDate,
+//                        @RequestParam String major,
+//                        @RequestParam String desiredJob,
+//                        @RequestParam String targetEmploymentPeriod,
+//                        @RequestParam String scheduleTitle,
+//                        @RequestParam String scheduleDate,
+//                        @RequestParam String scheduleTime,
+//                        @RequestParam String mustDoTasks,
+//                        @RequestParam String requirements);
+
+    @GetMapping("/feedback/readInfo")
+    FeedbackResponse getSchedules(@RequestParam List<String> info);
 }

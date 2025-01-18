@@ -1,6 +1,7 @@
 package com.team3.gdgoc.schedule;
 
 import com.team3.gdgoc.ai.AiService;
+import com.team3.gdgoc.task.TaskService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     private final AiService aiService;
+
+    private final TaskService taskService;
 
     @Transactional
     public ScheduleResponse addSchedule(AddScheduleRequest request) {
